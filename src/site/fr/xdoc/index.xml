@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>Introduction</title>
+    </properties>
+    <body>
+        <section name="Descriptif du plugin">
+            <subsection name="Introduction">
+                <p>
+                	Ce plugin permet de d'envoyer des donn&#233;es d'un blob vers une autre webapp contenant le plugin-blobstore et le module-blobstore-rest via WebService.
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<!-- Web Service -->
+	<bean id="blobstoreclient.webServiceCaller" class="fr.paris.lutece.plugins.blobstoreclient.util.http.WebServiceCaller" />
+    <bean id="blobstoreclient.blobStoreClientWebService" class="fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService">
+    	<property name="webServiceCaller" ref="blobstoreclient.webServiceCaller" />
+    </bean>
+
+	<!-- SignRequest -->
+    <bean id="blobstoreclient.hashService" class="fr.paris.lutece.util.signrequest.security.Sha1HashService" />
+    <bean id="blobstoreclient.requestAuthenticator" class="fr.paris.lutece.util.signrequest.HeaderHashAuthenticator" >
+        <property name="hashService" ref="blobstoreclient.hashService" />
+        <property name="signatureElements">
+        	<list>
+        		<value>blobstore</value>
+        		<value>blob_key</value>
+        	</list>
+        </property>
+        <property name="privateKey">
+            <value>change me</value>
+        </property>
+    </bean>
+</beans>

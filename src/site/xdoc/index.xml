@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>Introduction</title>
+    </properties>
+    <body>
+        <section name="Plugin's description">
+            <subsection name="Introduction">
+                <p>
+                	This plugin handles the data sending to the webapp that contains the plugin BlobStore and the module BlobStore Rest by WebService.
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>
