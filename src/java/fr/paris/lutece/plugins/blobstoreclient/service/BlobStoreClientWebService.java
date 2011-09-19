@@ -34,7 +34,7 @@
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
 import fr.paris.lutece.plugins.blobstoreclient.service.signrequest.BlobStoreClientRequestAuthenticatorService;
-import fr.paris.lutece.plugins.blobstoreclient.util.URLUtils;
+import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.IWebServiceCaller;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
@@ -104,7 +104,7 @@ public class BlobStoreClientWebService
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
-        return _webServiceCaller.callWSPost( URLUtils.buildDeleteBlobUrl( strBaseUrl ), mapParameters,
+        return _webServiceCaller.callWSPost( UrlUtils.buildDeleteBlobUrl( strBaseUrl ), mapParameters,
             BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
     }
 
@@ -132,7 +132,7 @@ public class BlobStoreClientWebService
         List<String> listElements = new ArrayList<String>(  );
         listElements.add( strBlobStore );
 
-        return _webServiceCaller.callWSPostMultiPart( URLUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ),
+        return _webServiceCaller.callWSPostMultiPart( UrlUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ),
             mapParameters, fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ),
             listElements );
     }
@@ -152,7 +152,7 @@ public class BlobStoreClientWebService
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
-        return _webServiceCaller.callWSGet( URLUtils.buildFileUrl( strBaseUrl, strBlobStore, strBlobKey ),
+        return _webServiceCaller.callWSGet( UrlUtils.buildFileUrl( strBaseUrl, strBlobStore, strBlobKey ),
             BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
     }
 }
