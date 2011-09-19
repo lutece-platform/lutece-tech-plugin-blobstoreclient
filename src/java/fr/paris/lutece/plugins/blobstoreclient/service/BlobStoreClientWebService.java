@@ -132,8 +132,9 @@ public class BlobStoreClientWebService
         List<String> listElements = new ArrayList<String>(  );
         listElements.add( strBlobStore );
 
-        return _webServiceCaller.callWSPostMultiPart( URLUtils.buildCreateBlobUrl( strBaseUrl ), mapParameters,
-            fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+        return _webServiceCaller.callWSPostMultiPart( URLUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ),
+            mapParameters, fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ),
+            listElements );
     }
 
     /**

@@ -45,8 +45,15 @@ public final class URLUtils
 {
     // CONSTANTS
     private static final String SLASH = "/";
+    private static final String INTERROGATION_MARK = "?";
+    private static final String EQUAL = "=";
+    private static final String AMPERSAND = "&";
 
-    // URL
+    // PARAMETERS
+    private static final String PARAMETER_BLOB_KEY = "blob_key";
+    private static final String PARAMETER_BLOBSTORE = "blobstore";
+
+    // PROPERTIES
     private static final String PROPERTY_URL_CREATE = "blobstoreclient.blobstore.rest.create.url";
     private static final String PROPERTY_URL_DELETE = "blobstoreclient.blobstore.rest.delete.url";
     private static final String PROPERTY_URL_FILE = "blobstoreclient.blobstore.rest.file.url";
@@ -64,9 +71,10 @@ public final class URLUtils
      * This will append the url defined in <b>blobstoreclient.properties</b> to the given
      * base url
      * @param strBaseUrl the base url
+     * @param strBlobStore the blobstore service name
      * @return the url to upload a file
      */
-    public static String buildCreateBlobUrl( String strBaseUrl )
+    public static String buildCreateBlobUrl( String strBaseUrl, String strBlobStore )
     {
         StringBuilder sbUrl = new StringBuilder( strBaseUrl );
 
@@ -76,6 +84,7 @@ public final class URLUtils
         }
 
         sbUrl.append( AppPropertiesService.getProperty( PROPERTY_URL_CREATE ) );
+        sbUrl.append( INTERROGATION_MARK + PARAMETER_BLOBSTORE + EQUAL + strBlobStore );
 
         return sbUrl.toString(  );
     }
@@ -125,6 +134,8 @@ public final class URLUtils
         sbUrl.append( strBlobStore );
         sbUrl.append( SLASH );
         sbUrl.append( strBlobKey );
+        sbUrl.append( INTERROGATION_MARK + PARAMETER_BLOBSTORE + EQUAL + strBlobStore );
+        sbUrl.append( AMPERSAND + PARAMETER_BLOB_KEY + EQUAL + strBlobKey );
 
         return sbUrl.toString(  );
     }
