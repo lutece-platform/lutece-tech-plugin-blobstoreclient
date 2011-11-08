@@ -33,7 +33,14 @@
  */
 package fr.paris.lutece.plugins.blobstoreclient.util;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 
 /**
@@ -48,6 +55,7 @@ public final class UrlUtils
     private static final String INTERROGATION_MARK = "?";
     private static final String EQUAL = "=";
     private static final String AMPERSAND = "&";
+    private static final String REGEX_URL_PARAMETER = "([^&]+)";
 
     // PARAMETERS
     private static final String PARAMETER_BLOB_KEY = "blob_key";
@@ -138,5 +146,53 @@ public final class UrlUtils
         sbUrl.append( AMPERSAND + PARAMETER_BLOB_KEY + EQUAL + strBlobKey );
 
         return sbUrl.toString(  );
+    }
+
+    /**
+     * Extract the parameter value from the url
+     * @param strUrl the url
+     * @param strParameter the parameter
+     * @return the parameter value
+     */
+    public static String getParameterValue( String strUrl, String strParameter )
+    {
+        String strValue = StringUtils.EMPTY;
+
+        try
+        {
+            Pattern p = Pattern.compile( strParameter + EQUAL + REGEX_URL_PARAMETER );
+            Matcher m = p.matcher( strUrl );
+
+            if ( m.find(  ) )
+            {
+                strValue = m.group( 1 );
+            }
+        }
+        catch ( PatternSyntaxException e )
+        {
+            AppLogService.error( e );
+        }
+
+        return strValue;
+    }
+
+    /**
+     * Get the blobstore service name from the url
+     * @param strUrl the url
+     * @return the blobstore service name
+     */
+    public static String getBlobStoreFromUrl( String strUrl )
+    {
+        return getParameterValue( strUrl, PARAMETER_BLOBSTORE );
+    }
+
+    /**
+     * Get the blob key from the url
+     * @param strUrl the url
+     * @return the blob key
+     */
+    public static String getBlobKeyFromUrl( String strUrl )
+    {
+        return getParameterValue( strUrl, PARAMETER_BLOB_KEY );
     }
 }

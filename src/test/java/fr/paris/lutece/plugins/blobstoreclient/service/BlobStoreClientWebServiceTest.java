@@ -34,9 +34,9 @@
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
 import fr.paris.lutece.plugins.blobstoreclient.business.MokeFileItem;
+import fr.paris.lutece.plugins.blobstoreclient.util.BlobStoreClientException;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.MokeWebServiceCaller;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
 
 /**
@@ -64,7 +64,7 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
         {
             webService.getFileName( URL );
         }
-        catch ( HttpAccessException e )
+        catch ( BlobStoreClientException e )
         {
             fail(  );
         }
@@ -84,7 +84,7 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
         {
             webService.doDeleteFile( URL, BLOBSTORE, BLOB_KEY );
         }
-        catch ( HttpAccessException e )
+        catch ( BlobStoreClientException e )
         {
             fail(  );
         }
@@ -104,7 +104,7 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
         {
             webService.doUploadFile( URL, new MokeFileItem( getResourcesDir(  ) ), BLOBSTORE );
         }
-        catch ( HttpAccessException e )
+        catch ( BlobStoreClientException e )
         {
             fail(  );
         }
@@ -124,7 +124,7 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
         {
             webService.getFileUrl( URL, BLOBSTORE, BLOB_KEY );
         }
-        catch ( HttpAccessException e )
+        catch ( BlobStoreClientException e )
         {
             fail(  );
         }

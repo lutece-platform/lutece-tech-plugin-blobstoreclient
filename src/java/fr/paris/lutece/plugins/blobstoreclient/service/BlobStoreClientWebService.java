@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
 import fr.paris.lutece.plugins.blobstoreclient.service.signrequest.BlobStoreClientRequestAuthenticatorService;
+import fr.paris.lutece.plugins.blobstoreclient.util.BlobStoreClientException;
 import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.IWebServiceCaller;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
@@ -51,7 +52,7 @@ import java.util.Map;
  * BlobStoreClientWebService
  *
  */
-public class BlobStoreClientWebService
+public class BlobStoreClientWebService implements IBlobStoreClientService
 {
     private static final String PARAMETER_BLOB_KEY = "blob_key";
     private static final String PARAMETER_BLOBSTORE = "blobstore";
@@ -68,26 +69,25 @@ public class BlobStoreClientWebService
     }
 
     /**
-     * Get the file name given an url
-     * @param strUrl the url
-     * @return the file name
-     * @throws HttpAccessException exception if there is a HTTP issue
+     * {@inheritDoc}
      */
-    public String getFileName( String strUrl ) throws HttpAccessException
+    public String getFileName( String strUrl ) throws BlobStoreClientException
     {
-        return _webServiceCaller.callWSGetFileName( strUrl );
+        try
+        {
+            return _webServiceCaller.callWSGetFileName( strUrl );
+        }
+        catch ( HttpAccessException e )
+        {
+            throw new BlobStoreClientException( e.getMessage(  ) );
+        }
     }
 
     /**
-     * Do delete a file in the blobstore webapp
-     * @param strBaseUrl the base url
-     * @param strBlobStore the blobstore service name
-     * @param strBlobKey the blob key
-     * @return the deleted blob key
-     * @throws HttpAccessException exception if there is a HTTP issue
+     * {@inheritDoc}
      */
     public String doDeleteFile( String strBaseUrl, String strBlobStore, String strBlobKey )
-        throws HttpAccessException
+        throws BlobStoreClientException
     {
         // Parameters
         Map<String, List<String>> mapParameters = new HashMap<String, List<String>>(  );
@@ -104,20 +104,22 @@ public class BlobStoreClientWebService
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
-        return _webServiceCaller.callWSPost( UrlUtils.buildDeleteBlobUrl( strBaseUrl ), mapParameters,
-            BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+        try
+        {
+            return _webServiceCaller.callWSPost( UrlUtils.buildDeleteBlobUrl( strBaseUrl ), mapParameters,
+                BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+        }
+        catch ( HttpAccessException e )
+        {
+            throw new BlobStoreClientException( e.getMessage(  ) );
+        }
     }
 
     /**
-     * Do upload a file in the blobstore webapp
-     * @param strBaseUrl the base url
-     * @param fileItem the file to upload
-     * @param strBlobStore the blobstore service name
-     * @return the uploaded file blob key
-     * @throws HttpAccessException exception if there is a HTTP issue
+     * {@inheritDoc}
      */
     public String doUploadFile( String strBaseUrl, FileItem fileItem, String strBlobStore )
-        throws HttpAccessException
+        throws BlobStoreClientException
     {
         // Parameters
         Map<String, List<String>> mapParameters = new HashMap<String, List<String>>(  );
@@ -132,27 +134,36 @@ public class BlobStoreClientWebService
         List<String> listElements = new ArrayList<String>(  );
         listElements.add( strBlobStore );
 
-        return _webServiceCaller.callWSPostMultiPart( UrlUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ),
-            mapParameters, fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ),
-            listElements );
+        try
+        {
+            return _webServiceCaller.callWSPostMultiPart( UrlUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ),
+                mapParameters, fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ),
+                listElements );
+        }
+        catch ( HttpAccessException e )
+        {
+            throw new BlobStoreClientException( e.getMessage(  ) );
+        }
     }
 
     /**
-     * Get the file url
-     * @param strBaseUrl the base url
-     * @param strBlobStore the blobstore service name
-     * @param strBlobKey the blob key
-     * @return the file url
-     * @throws HttpAccessException exception if there is a HTTP issue
+     * {@inheritDoc}
      */
     public String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey )
-        throws HttpAccessException
+        throws BlobStoreClientException
     {
         List<String> listElements = new ArrayList<String>(  );
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
-        return _webServiceCaller.callWSGet( UrlUtils.buildFileUrl( strBaseUrl, strBlobStore, strBlobKey ),
-            BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+        try
+        {
+            return _webServiceCaller.callWSGet( UrlUtils.buildFileUrl( strBaseUrl, strBlobStore, strBlobKey ),
+                BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+        }
+        catch ( HttpAccessException e )
+        {
+            throw new BlobStoreClientException( e.getMessage(  ) );
+        }
     }
 }

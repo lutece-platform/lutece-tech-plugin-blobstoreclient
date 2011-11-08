@@ -2,9 +2,14 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-	<!-- Web Service -->
+	<!-- Service -->
+	
+	<!-- LOCALE -->
+	<!-- <bean id="blobstoreclient.blobStoreClientService" class="fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientLocaleService" /> -->
+	
+	<!-- WEB SERVICE -->
 	<bean id="blobstoreclient.webServiceCaller" class="fr.paris.lutece.plugins.blobstoreclient.util.http.WebServiceCaller" />
-    <bean id="blobstoreclient.blobStoreClientWebService" class="fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService">
+    <bean id="blobstoreclient.blobStoreClientService" class="fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService">
     	<property name="webServiceCaller" ref="blobstoreclient.webServiceCaller" />
     </bean>
 
