@@ -49,6 +49,9 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 
@@ -70,38 +73,19 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
         String strBlobStore = UrlUtils.getBlobStoreFromUrl( strUrl );
         String strBlobKey = UrlUtils.getBlobKeyFromUrl( strUrl );
 
-        if ( StringUtils.isNotBlank( strBlobKey ) && StringUtils.isNotBlank( strBlobStore ) )
+        BlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
+
+        try
         {
-            BlobStoreService blobStoreService;
-
-            try
-            {
-                blobStoreService = (BlobStoreService) SpringContextService.getPluginBean( BLOBSTORE_PLUGIN_NAME,
-                        strBlobStore );
-
-                BlobStoreFileItem fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
-                strFileName = fileItem.getName(  );
-            }
-            catch ( BeanDefinitionStoreException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( NoSuchBeanDefinitionException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( CannotLoadBeanClassException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( NoSuchBlobException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
+            BlobStoreFileItem fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
+            strFileName = fileItem.getName(  );
         }
-        else
+        catch ( NoSuchBlobException e )
         {
-            throw new BlobStoreClientException( Messages.MANDATORY_FIELDS );
+            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
+                "and blob key '" + strBlobKey + "' : ";
+            AppLogService.error( strError + e.getMessage(  ), e );
+            throw new BlobStoreClientException( e.getMessage(  ) );
         }
 
         return strFileName;
@@ -113,38 +97,19 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
     public String doDeleteFile( String strBaseUrl, String strBlobStore, String strBlobKey )
         throws BlobStoreClientException
     {
-        if ( StringUtils.isNotBlank( strBlobKey ) && StringUtils.isNotBlank( strBlobStore ) )
+        BlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
+
+        try
         {
-            BlobStoreService blobStoreService;
-
-            try
-            {
-                blobStoreService = (BlobStoreService) SpringContextService.getPluginBean( BLOBSTORE_PLUGIN_NAME,
-                        strBlobStore );
-
-                BlobStoreFileItem fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
-                fileItem.delete(  );
-            }
-            catch ( BeanDefinitionStoreException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( NoSuchBeanDefinitionException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( CannotLoadBeanClassException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( NoSuchBlobException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
+            BlobStoreFileItem fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
+            fileItem.delete(  );
         }
-        else
+        catch ( NoSuchBlobException e )
         {
-            throw new BlobStoreClientException( Messages.MANDATORY_FIELDS );
+            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
+                "and blob key '" + strBlobKey + "' : ";
+            AppLogService.error( strError + e.getMessage(  ), e );
+            throw new BlobStoreClientException( e.getMessage(  ) );
         }
 
         return strBlobKey;
@@ -160,12 +125,10 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
 
         if ( StringUtils.isNotBlank( strBlobStore ) && ( fileItem != null ) )
         {
-            BlobStoreService blobStoreService;
+            BlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
 
             try
             {
-                blobStoreService = (BlobStoreService) SpringContextService.getPluginBean( BLOBSTORE_PLUGIN_NAME,
-                        strBlobStore );
                 strBlobKey = blobStoreService.storeInputStream( fileItem.getInputStream(  ) );
 
                 String strJSON = BlobStoreFileItem.buildFileMetadata( fileItem.getName(  ), fileItem.getSize(  ),
@@ -177,18 +140,6 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
                 }
 
                 strBlobKey = blobStoreService.store( strJSON.getBytes(  ) );
-            }
-            catch ( BeanDefinitionStoreException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( NoSuchBeanDefinitionException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
-            }
-            catch ( CannotLoadBeanClassException e )
-            {
-                throw new BlobStoreClientException( e.getMessage(  ) );
             }
             catch ( IOException e )
             {
@@ -209,36 +160,114 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
     public String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey )
         throws BlobStoreClientException
     {
-        String strDownloadUrl = StringUtils.EMPTY;
+        BlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
+        return blobStoreService.getFileUrl( strBlobKey );
+    }
 
-        if ( StringUtils.isNotBlank( strBlobStore ) && StringUtils.isNotBlank( strBlobKey ) )
+    /**
+     * {@inheritDoc}
+     */
+    public void doDownloadFile( String strUrl, String strFilePath )
+        throws BlobStoreClientException
+    {
+        String strBlobStore = UrlUtils.getBlobStoreFromUrl( strUrl );
+        String strBlobKey = UrlUtils.getBlobKeyFromUrl( strUrl );
+
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+
+        try
         {
-            BlobStoreService blobStoreService;
+            BlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
 
+            BlobStoreFileItem fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
+            bis = new BufferedInputStream( fileItem.getInputStream(  ) );
+
+            FileOutputStream fos = new FileOutputStream( strFilePath );
+            bos = new BufferedOutputStream( fos );
+
+            int bytes;
+
+            while ( ( bytes = bis.read(  ) ) > -1 )
+            {
+                bos.write( bytes );
+            }
+        }
+        catch ( NoSuchBlobException e )
+        {
+            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
+                "and blob key '" + strBlobKey + "' : ";
+            AppLogService.error( strError + e.getMessage(  ), e );
+            throw new BlobStoreClientException( e.getMessage(  ) );
+        }
+        catch ( IOException e )
+        {
+            String strError = "BlobStoreClientLocaleService - Unable to download file '" + strUrl + "' : ";
+            AppLogService.error( strError + e.getMessage(  ), e );
+            throw new BlobStoreClientException( strError + e.getMessage(  ) );
+        }
+        finally
+        {
             try
             {
-                blobStoreService = (BlobStoreService) SpringContextService.getPluginBean( BLOBSTORE_PLUGIN_NAME,
-                        strBlobStore );
-                strDownloadUrl = blobStoreService.getFileUrl( strBlobKey );
+                if ( bis != null )
+                {
+                    bis.close(  );
+                }
+
+                if ( bos != null )
+                {
+                    bos.close(  );
+                }
+            }
+            catch ( IOException e )
+            {
+                AppLogService.error( "BlobStoreClientLocaleService - Error closing stream : " + e.getMessage(  ), e );
+                throw new BlobStoreClientException( e.getMessage(  ) );
+            }
+        }
+    }
+
+    /**
+     * Get the blob store service
+     * @param strBlobStore the blob store service name
+     * @return the BlobStore service
+     * @throws BlobStoreClientException exception if there is an error
+     */
+    private BlobStoreService getBlobStoreService( String strBlobStore )
+        throws BlobStoreClientException
+    {
+        if ( StringUtils.isNotBlank( strBlobStore ) )
+        {
+            try
+            {
+                return (BlobStoreService) SpringContextService.getPluginBean( BLOBSTORE_PLUGIN_NAME, strBlobStore );
             }
             catch ( BeanDefinitionStoreException e )
             {
-                AppLogService.error( e.getMessage(  ) );
+                String strError = "BlobStoreClientLocaleService - Bean definition store exception for blobstore '" +
+                    strBlobStore + "' : ";
+                AppLogService.error( strError + e.getMessage(  ), e );
+                throw new BlobStoreClientException( e.getMessage(  ) );
             }
             catch ( NoSuchBeanDefinitionException e )
             {
-                AppLogService.error( e.getMessage(  ) );
+                String strError = "BlobStoreClientLocaleService - No such Bean definition for blobstore '" +
+                    strBlobStore + "' : ";
+                AppLogService.error( strError + e.getMessage(  ), e );
+                throw new BlobStoreClientException( e.getMessage(  ) );
             }
             catch ( CannotLoadBeanClassException e )
             {
-                AppLogService.error( e.getMessage(  ) );
+                String strError = "BlobStoreClientLocaleService - Cannot load Bean Class for blobstore '" +
+                    strBlobStore + "' : ";
+                AppLogService.error( strError + e.getMessage(  ), e );
+                throw new BlobStoreClientException( e.getMessage(  ) );
             }
         }
         else
         {
-            AppLogService.error( Messages.MANDATORY_FIELDS );
+            throw new BlobStoreClientException( Messages.MANDATORY_FIELDS );
         }
-
-        return strDownloadUrl;
     }
 }

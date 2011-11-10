@@ -85,4 +85,13 @@ public interface IBlobStoreClientService
      */
     String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey )
         throws BlobStoreClientException;
+
+    /**
+     * Download the file to the file path
+     * @param strUrl the url of the file
+     * @param strFilePath the file path
+     * @throws BlobStoreClientException exception if there is an error
+     */
+    void doDownloadFile( String strUrl, String strFilePath )
+        throws BlobStoreClientException;
 }

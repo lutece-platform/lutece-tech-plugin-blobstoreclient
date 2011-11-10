@@ -91,4 +91,15 @@ public interface IWebServiceCaller
     String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters,
         Map<String, FileItem> fileItems, RequestAuthenticator authenticator, List<String> listElements )
         throws HttpAccessException;
+
+    /**
+     * Call WS to download a file
+     * @param strUrl the url of the file to download
+     * @param strFilePath the file path to download the file
+     * @param authenticator the request authenticator
+     * @param listElements the list of elements to include in the signature
+     * @throws HttpAccessException exception if there is an HTTP error
+     */
+    void callWSDownloadFile( String strUrl, String strFilePath, RequestAuthenticator authenticator,
+        List<String> listElements ) throws HttpAccessException;
 }
