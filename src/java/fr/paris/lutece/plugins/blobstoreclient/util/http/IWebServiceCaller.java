@@ -102,4 +102,15 @@ public interface IWebServiceCaller
      */
     void callWSDownloadFile( String strUrl, String strFilePath, RequestAuthenticator authenticator,
         List<String> listElements ) throws HttpAccessException;
+
+    /**
+     * Call WS to download a file
+     * @param strUrl the url of the file to download
+     * @param authenticator the request authenticator
+     * @param listElements the list of elements to include in the signature
+     * @return a {@link FileItem}
+     * @throws HttpAccessException exception if there is an HTTP error
+     */
+    FileItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
+        throws HttpAccessException;
 }

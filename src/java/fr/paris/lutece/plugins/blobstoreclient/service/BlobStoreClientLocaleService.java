@@ -161,6 +161,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
         throws BlobStoreClientException
     {
         BlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
+
         return blobStoreService.getFileUrl( strBlobKey );
     }
 
@@ -269,5 +270,32 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
         {
             throw new BlobStoreClientException( Messages.MANDATORY_FIELDS );
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public FileItem doDownloadFile( String strUrl ) throws BlobStoreClientException
+    {
+        String strBlobStore = UrlUtils.getBlobStoreFromUrl( strUrl );
+        String strBlobKey = UrlUtils.getBlobKeyFromUrl( strUrl );
+
+        BlobStoreFileItem fileItem = null;
+
+        try
+        {
+            BlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
+
+            fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
+        }
+        catch ( NoSuchBlobException e )
+        {
+            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
+                "and blob key '" + strBlobKey + "' : ";
+            AppLogService.error( strError + e.getMessage(  ), e );
+            throw new BlobStoreClientException( e.getMessage(  ) );
+        }
+
+        return fileItem;
     }
 }

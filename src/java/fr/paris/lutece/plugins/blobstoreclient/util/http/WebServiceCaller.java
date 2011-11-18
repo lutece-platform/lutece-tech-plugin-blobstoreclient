@@ -185,6 +185,25 @@ public class WebServiceCaller implements IWebServiceCaller
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public FileItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
+        throws HttpAccessException
+    {
+        try
+        {
+            HttpAccess httpAccess = new HttpAccess(  );
+
+            return httpAccess.downloadFile( strUrl );
+        }
+        catch ( HttpAccessException e )
+        {
+            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage(  ), e );
+            throw new HttpAccessException( buildErrorMessage( strUrl ), e );
+        }
+    }
+
+    /**
      * Trace the web service call
      * @param strUrl The WS URI
      * @return The trace

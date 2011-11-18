@@ -190,4 +190,27 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
             throw new BlobStoreClientException( e.getMessage(  ) );
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public FileItem doDownloadFile( String strUrl ) throws BlobStoreClientException
+    {
+        String strBlobKey = UrlUtils.getBlobKeyFromUrl( strUrl );
+        String strBlobStore = UrlUtils.getBlobStoreFromUrl( strUrl );
+
+        List<String> listElements = new ArrayList<String>(  );
+        listElements.add( strBlobKey );
+        listElements.add( strBlobStore );
+
+        try
+        {
+            return _webServiceCaller.callWSDownloadFile( strUrl,
+                BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+        }
+        catch ( HttpAccessException e )
+        {
+            throw new BlobStoreClientException( e.getMessage(  ) );
+        }
+    }
 }
