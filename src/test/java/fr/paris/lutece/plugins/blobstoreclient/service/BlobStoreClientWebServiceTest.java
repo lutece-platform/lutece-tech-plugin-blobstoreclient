@@ -34,8 +34,8 @@
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
 import fr.paris.lutece.plugins.blobstoreclient.business.MokeFileItem;
-import fr.paris.lutece.plugins.blobstoreclient.util.BlobStoreClientException;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.MokeWebServiceCaller;
+import fr.paris.lutece.portal.service.blobstore.BlobStoreClientException;
 import fr.paris.lutece.test.LuteceTestCase;
 
 

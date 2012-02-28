@@ -34,9 +34,10 @@
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
 import fr.paris.lutece.plugins.blobstoreclient.service.signrequest.BlobStoreClientRequestAuthenticatorService;
-import fr.paris.lutece.plugins.blobstoreclient.util.BlobStoreClientException;
 import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.IWebServiceCaller;
+import fr.paris.lutece.portal.service.blobstore.BlobStoreClientException;
+import fr.paris.lutece.portal.service.blobstore.IBlobStoreClientService;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
 import org.apache.commons.fileupload.FileItem;

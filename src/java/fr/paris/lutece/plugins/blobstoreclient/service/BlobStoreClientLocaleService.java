@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
-import fr.paris.lutece.plugins.blobstoreclient.util.BlobStoreClientException;
 import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
+import fr.paris.lutece.portal.service.blobstore.BlobStoreClientException;
 import fr.paris.lutece.portal.service.blobstore.BlobStoreFileItem;
 import fr.paris.lutece.portal.service.blobstore.BlobStoreService;
+import fr.paris.lutece.portal.service.blobstore.IBlobStoreClientService;
 import fr.paris.lutece.portal.service.blobstore.NoSuchBlobException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -82,8 +83,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
         }
         catch ( NoSuchBlobException e )
         {
-            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
-                "and blob key '" + strBlobKey + "' : ";
+            String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage(  ), e );
             throw new BlobStoreClientException( e.getMessage(  ) );
         }
@@ -106,8 +106,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
         }
         catch ( NoSuchBlobException e )
         {
-            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
-                "and blob key '" + strBlobKey + "' : ";
+            String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage(  ), e );
             throw new BlobStoreClientException( e.getMessage(  ) );
         }
@@ -196,8 +195,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
         }
         catch ( NoSuchBlobException e )
         {
-            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
-                "and blob key '" + strBlobKey + "' : ";
+            String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage(  ), e );
             throw new BlobStoreClientException( e.getMessage(  ) );
         }
@@ -290,12 +288,23 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
         }
         catch ( NoSuchBlobException e )
         {
-            String strError = "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " +
-                "and blob key '" + strBlobKey + "' : ";
+            String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage(  ), e );
             throw new BlobStoreClientException( e.getMessage(  ) );
         }
 
         return fileItem;
+    }
+
+    /**
+     * Build the error message
+     * @param strBlobStore the blobstore
+     * @param strBlobKey the blob key
+     * @return the error message
+     */
+    private String buildNoSuchBlobErrorMessage( String strBlobStore, String strBlobKey )
+    {
+        return "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " + "and blob key '" +
+        strBlobKey + "' : ";
     }
 }
