@@ -33,25 +33,25 @@
  */
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
-import fr.paris.lutece.plugins.blobstoreclient.service.signrequest.BlobStoreClientRequestAuthenticatorService;
-import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
-import fr.paris.lutece.plugins.blobstoreclient.util.http.IWebServiceCaller;
-import fr.paris.lutece.portal.service.blobstore.BlobStoreClientException;
-import fr.paris.lutece.portal.service.blobstore.IBlobStoreClientService;
-import fr.paris.lutece.util.httpaccess.HttpAccessException;
-
-import org.apache.commons.fileupload.FileItem;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.fileupload.FileItem;
+
+import fr.paris.lutece.plugins.blobstore.service.BlobStoreClientException;
+import fr.paris.lutece.plugins.blobstore.service.IBlobStoreClientService;
+import fr.paris.lutece.plugins.blobstoreclient.service.signrequest.BlobStoreClientRequestAuthenticatorService;
+import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
+import fr.paris.lutece.plugins.blobstoreclient.util.http.IWebServiceCaller;
+import fr.paris.lutece.util.httpaccess.HttpAccessException;
+
 
 /**
- *
+ * 
  * BlobStoreClientWebService
- *
+ * 
  */
 public class BlobStoreClientWebService implements IBlobStoreClientService
 {
@@ -72,6 +72,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getFileName( String strUrl ) throws BlobStoreClientException
     {
         try
@@ -80,138 +81,142 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
         }
         catch ( HttpAccessException e )
         {
-            throw new BlobStoreClientException( e.getMessage(  ) );
+            throw new BlobStoreClientException( e.getMessage( ) );
         }
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String doDeleteFile( String strBaseUrl, String strBlobStore, String strBlobKey )
-        throws BlobStoreClientException
+            throws BlobStoreClientException
     {
         // Parameters
-        Map<String, List<String>> mapParameters = new HashMap<String, List<String>>(  );
-        List<String> parameterBlobKey = new ArrayList<String>(  );
+        Map<String, List<String>> mapParameters = new HashMap<String, List<String>>( );
+        List<String> parameterBlobKey = new ArrayList<String>( );
         parameterBlobKey.add( strBlobKey );
 
-        List<String> parameterBlobStore = new ArrayList<String>(  );
+        List<String> parameterBlobStore = new ArrayList<String>( );
         parameterBlobStore.add( strBlobStore );
         mapParameters.put( PARAMETER_BLOB_KEY, parameterBlobKey );
         mapParameters.put( PARAMETER_BLOBSTORE, parameterBlobStore );
 
         // List elements to include to the signature
-        List<String> listElements = new ArrayList<String>(  );
+        List<String> listElements = new ArrayList<String>( );
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
         try
         {
             return _webServiceCaller.callWSPost( UrlUtils.buildDeleteBlobUrl( strBaseUrl ), mapParameters,
-                BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+                    BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
         catch ( HttpAccessException e )
         {
-            throw new BlobStoreClientException( e.getMessage(  ) );
+            throw new BlobStoreClientException( e.getMessage( ) );
         }
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String doUploadFile( String strBaseUrl, FileItem fileItem, String strBlobStore )
-        throws BlobStoreClientException
+            throws BlobStoreClientException
     {
         // Parameters
-        Map<String, List<String>> mapParameters = new HashMap<String, List<String>>(  );
-        List<String> parameterBlobStore = new ArrayList<String>(  );
+        Map<String, List<String>> mapParameters = new HashMap<String, List<String>>( );
+        List<String> parameterBlobStore = new ArrayList<String>( );
         parameterBlobStore.add( strBlobStore );
         mapParameters.put( PARAMETER_BLOBSTORE, parameterBlobStore );
 
-        Map<String, FileItem> fileItems = new HashMap<String, FileItem>(  );
+        Map<String, FileItem> fileItems = new HashMap<String, FileItem>( );
         fileItems.put( PARAMETER_BLOB, fileItem );
 
         // List elements to include to the signature
-        List<String> listElements = new ArrayList<String>(  );
+        List<String> listElements = new ArrayList<String>( );
         listElements.add( strBlobStore );
 
         try
         {
             return _webServiceCaller.callWSPostMultiPart( UrlUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ),
-                mapParameters, fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ),
-                listElements );
+                    mapParameters, fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ),
+                    listElements );
         }
         catch ( HttpAccessException e )
         {
-            throw new BlobStoreClientException( e.getMessage(  ) );
+            throw new BlobStoreClientException( e.getMessage( ) );
         }
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey )
-        throws BlobStoreClientException
+            throws BlobStoreClientException
     {
-        List<String> listElements = new ArrayList<String>(  );
+        List<String> listElements = new ArrayList<String>( );
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
         try
         {
             return _webServiceCaller.callWSGet( UrlUtils.buildFileUrl( strBaseUrl, strBlobStore, strBlobKey ),
-                BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+                    BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
         catch ( HttpAccessException e )
         {
-            throw new BlobStoreClientException( e.getMessage(  ) );
+            throw new BlobStoreClientException( e.getMessage( ) );
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public void doDownloadFile( String strUrl, String strFilePath )
-        throws BlobStoreClientException
+    @Override
+    public void doDownloadFile( String strUrl, String strFilePath ) throws BlobStoreClientException
     {
         String strBlobKey = UrlUtils.getBlobKeyFromUrl( strUrl );
         String strBlobStore = UrlUtils.getBlobStoreFromUrl( strUrl );
 
-        List<String> listElements = new ArrayList<String>(  );
+        List<String> listElements = new ArrayList<String>( );
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
         try
         {
             _webServiceCaller.callWSDownloadFile( strUrl, strFilePath,
-                BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+                    BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
         catch ( HttpAccessException e )
         {
-            throw new BlobStoreClientException( e.getMessage(  ) );
+            throw new BlobStoreClientException( e.getMessage( ) );
         }
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public FileItem doDownloadFile( String strUrl ) throws BlobStoreClientException
     {
         String strBlobKey = UrlUtils.getBlobKeyFromUrl( strUrl );
         String strBlobStore = UrlUtils.getBlobStoreFromUrl( strUrl );
 
-        List<String> listElements = new ArrayList<String>(  );
+        List<String> listElements = new ArrayList<String>( );
         listElements.add( strBlobKey );
         listElements.add( strBlobStore );
 
         try
         {
             return _webServiceCaller.callWSDownloadFile( strUrl,
-                BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator(  ), listElements );
+                    BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
         catch ( HttpAccessException e )
         {
-            throw new BlobStoreClientException( e.getMessage(  ) );
+            throw new BlobStoreClientException( e.getMessage( ) );
         }
     }
 }
