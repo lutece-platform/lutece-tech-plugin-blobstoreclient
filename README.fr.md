@@ -3,15 +3,15 @@
 [![Line of code](https://dev.lutece.paris.fr/sonar/api/project_badges/measure?project=fr.paris.lutece.plugins%3Aplugin-blobstoreclient&metric=ncloc)](https://dev.lutece.paris.fr/sonar/dashboard?id=fr.paris.lutece.plugins%3Aplugin-blobstoreclient)
 [![Coverage](https://dev.lutece.paris.fr/sonar/api/project_badges/measure?project=fr.paris.lutece.plugins%3Aplugin-blobstoreclient&metric=coverage)](https://dev.lutece.paris.fr/sonar/dashboard?id=fr.paris.lutece.plugins%3Aplugin-blobstoreclient)
 
-# Plugin's description
+# Descriptif du plugin
 
 ## Introduction
 
-This plugin handles the data sending to the webapp that contains the plugin BlobStore and the module BlobStore Rest by WebService.
+Ce plugin permet de d'envoyer des données d'un blob vers une autre webapp contenant le plugin-blobstore et le module-blobstore-rest via WebService.
 
 ## Installation
 
-Configure the private key for the signature in the file **blobstoreclient_context.xml** :
+Configurer la cléprivée utilisée pour les signatures dans le fichier **blobstoreclient_context.xml** :
 
 ```
 

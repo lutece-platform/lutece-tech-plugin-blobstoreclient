@@ -10,6 +10,28 @@
                 	This plugin handles the data sending to the webapp that contains the plugin BlobStore and the module BlobStore Rest by WebService.
                 </p>
             </subsection>
-        </section>
-    </body>
+            <subsection name="Installation">
+			<p>
+				Configure the private key for the signature in the file <strong>blobstoreclient_context.xml</strong> :      
+			</p>
+			<div class="source">
+<pre>
+&lt;bean id="blobstoreclient.hashService" class="fr.paris.lutece.util.signrequest.security.Sha1HashService" /&gt;
+&lt;bean id="blobstoreclient.requestAuthenticator" class="fr.paris.lutece.util.signrequest.HeaderHashAuthenticator" &gt;
+	&lt;property name="hashService" ref="blobstoreclient.hashService" /&gt;
+    &lt;property name="signatureElements"&gt;
+		&lt;list&gt;
+    		&lt;value&gt;blobstore&lt;/value&gt;
+    		&lt;value&gt;blob_key&lt;/value&gt;
+	&lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name="privateKey"&gt;
+        &lt;value&gt;<strong>change me</strong>&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</pre>
+			</div>
+            </subsection>
+         </section>
+   </body>
 </document>
