@@ -40,13 +40,13 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-httpaccess</artifactId>
-            <version>[2.2.9,)</version>
+            <version>[2.2.9,2.5.3]</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-signrequest</artifactId>
-            <version>[2.0.0,)</version>
+            <version>[2.0.0,2.0.4]</version>
             <type>jar</type>
         </dependency>
         <!-- Blobstore -->
