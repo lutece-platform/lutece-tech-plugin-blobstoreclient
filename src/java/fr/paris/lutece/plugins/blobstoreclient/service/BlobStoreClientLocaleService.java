@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
-
 /**
  * 
  * BlobStoreClientLocaleService
@@ -81,7 +80,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
             BlobStoreFileItem fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
             strFileName = fileItem.getName( );
         }
-        catch ( NoSuchBlobException e )
+        catch( NoSuchBlobException e )
         {
             String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage( ), e );
@@ -95,8 +94,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public String doDeleteFile( String strBaseUrl, String strBlobStore, String strBlobKey )
-            throws BlobStoreClientException
+    public String doDeleteFile( String strBaseUrl, String strBlobStore, String strBlobKey ) throws BlobStoreClientException
     {
         IBlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
 
@@ -105,7 +103,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
             BlobStoreFileItem fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
             fileItem.delete( );
         }
-        catch ( NoSuchBlobException e )
+        catch( NoSuchBlobException e )
         {
             String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage( ), e );
@@ -119,8 +117,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public String doUploadFile( String strBaseUrl, FileItem fileItem, String strBlobStore )
-            throws BlobStoreClientException
+    public String doUploadFile( String strBaseUrl, FileItem fileItem, String strBlobStore ) throws BlobStoreClientException
     {
         String strBlobKey = StringUtils.EMPTY;
 
@@ -132,8 +129,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
             {
                 strBlobKey = blobStoreService.storeInputStream( fileItem.getInputStream( ) );
 
-                String strJSON = BlobStoreFileItem.buildFileMetadata( fileItem.getName( ), fileItem.getSize( ),
-                        strBlobKey, fileItem.getContentType( ) );
+                String strJSON = BlobStoreFileItem.buildFileMetadata( fileItem.getName( ), fileItem.getSize( ), strBlobKey, fileItem.getContentType( ) );
 
                 if ( AppLogService.isDebugEnabled( ) )
                 {
@@ -142,7 +138,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
 
                 strBlobKey = blobStoreService.store( strJSON.getBytes( ) );
             }
-            catch ( IOException e )
+            catch( IOException e )
             {
                 throw new BlobStoreClientException( e.getMessage( ) );
             }
@@ -159,8 +155,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey )
-            throws BlobStoreClientException
+    public String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey ) throws BlobStoreClientException
     {
         IBlobStoreService blobStoreService = getBlobStoreService( strBlobStore );
 
@@ -196,13 +191,13 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
                 bos.write( bytes );
             }
         }
-        catch ( NoSuchBlobException e )
+        catch( NoSuchBlobException e )
         {
             String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage( ), e );
             throw new BlobStoreClientException( e.getMessage( ) );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             String strError = "BlobStoreClientLocaleService - Unable to download file '" + strUrl + "' : ";
             AppLogService.error( strError + e.getMessage( ), e );
@@ -222,7 +217,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
                     bos.close( );
                 }
             }
-            catch ( IOException e )
+            catch( IOException e )
             {
                 AppLogService.error( "BlobStoreClientLocaleService - Error closing stream : " + e.getMessage( ), e );
                 throw new BlobStoreClientException( e.getMessage( ) );
@@ -232,9 +227,12 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
 
     /**
      * Get the blob store service
-     * @param strBlobStore the blob store service name
+     * 
+     * @param strBlobStore
+     *            the blob store service name
      * @return the BlobStore service
-     * @throws BlobStoreClientException exception if there is an error
+     * @throws BlobStoreClientException
+     *             exception if there is an error
      */
     private IBlobStoreService getBlobStoreService( String strBlobStore ) throws BlobStoreClientException
     {
@@ -244,24 +242,21 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
             {
                 return (IBlobStoreService) SpringContextService.getPluginBean( BLOBSTORE_PLUGIN_NAME, strBlobStore );
             }
-            catch ( BeanDefinitionStoreException e )
+            catch( BeanDefinitionStoreException e )
             {
-                String strError = "BlobStoreClientLocaleService - Bean definition store exception for blobstore '"
-                        + strBlobStore + "' : ";
+                String strError = "BlobStoreClientLocaleService - Bean definition store exception for blobstore '" + strBlobStore + "' : ";
                 AppLogService.error( strError + e.getMessage( ), e );
                 throw new BlobStoreClientException( e.getMessage( ) );
             }
-            catch ( NoSuchBeanDefinitionException e )
+            catch( NoSuchBeanDefinitionException e )
             {
-                String strError = "BlobStoreClientLocaleService - No such Bean definition for blobstore '"
-                        + strBlobStore + "' : ";
+                String strError = "BlobStoreClientLocaleService - No such Bean definition for blobstore '" + strBlobStore + "' : ";
                 AppLogService.error( strError + e.getMessage( ), e );
                 throw new BlobStoreClientException( e.getMessage( ) );
             }
-            catch ( CannotLoadBeanClassException e )
+            catch( CannotLoadBeanClassException e )
             {
-                String strError = "BlobStoreClientLocaleService - Cannot load Bean Class for blobstore '"
-                        + strBlobStore + "' : ";
+                String strError = "BlobStoreClientLocaleService - Cannot load Bean Class for blobstore '" + strBlobStore + "' : ";
                 AppLogService.error( strError + e.getMessage( ), e );
                 throw new BlobStoreClientException( e.getMessage( ) );
             }
@@ -289,7 +284,7 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
 
             fileItem = new BlobStoreFileItem( strBlobKey, blobStoreService );
         }
-        catch ( NoSuchBlobException e )
+        catch( NoSuchBlobException e )
         {
             String strError = buildNoSuchBlobErrorMessage( strBlobStore, strBlobKey );
             AppLogService.error( strError + e.getMessage( ), e );
@@ -301,13 +296,15 @@ public class BlobStoreClientLocaleService implements IBlobStoreClientService
 
     /**
      * Build the error message
-     * @param strBlobStore the blobstore
-     * @param strBlobKey the blob key
+     * 
+     * @param strBlobStore
+     *            the blobstore
+     * @param strBlobKey
+     *            the blob key
      * @return the error message
      */
     private String buildNoSuchBlobErrorMessage( String strBlobStore, String strBlobKey )
     {
-        return "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " + "and blob key '"
-                + strBlobKey + "' : ";
+        return "BlobStoreClientLocaleService - No such blob for blobstore '" + strBlobStore + "' " + "and blob key '" + strBlobKey + "' : ";
     }
 }

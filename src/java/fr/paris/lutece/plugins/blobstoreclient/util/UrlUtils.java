@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-
 /**
  *
  * URLUtils
@@ -69,73 +68,76 @@ public final class UrlUtils
     /**
      * Private constructor
      */
-    private UrlUtils(  )
+    private UrlUtils( )
     {
     }
 
     /**
-     * Build the url to upload a file.
-     * <br />
-     * This will append the url defined in <b>blobstoreclient.properties</b> to the given
-     * base url
-     * @param strBaseUrl the base url
-     * @param strBlobStore the blobstore service name
+     * Build the url to upload a file. <br />
+     * This will append the url defined in <b>blobstoreclient.properties</b> to the given base url
+     * 
+     * @param strBaseUrl
+     *            the base url
+     * @param strBlobStore
+     *            the blobstore service name
      * @return the url to upload a file
      */
     public static String buildCreateBlobUrl( String strBaseUrl, String strBlobStore )
     {
         StringBuilder sbUrl = new StringBuilder( strBaseUrl );
 
-        if ( sbUrl.toString(  ).endsWith( SLASH ) )
+        if ( sbUrl.toString( ).endsWith( SLASH ) )
         {
-            sbUrl.substring( 0, sbUrl.length(  ) - 1 );
+            sbUrl.substring( 0, sbUrl.length( ) - 1 );
         }
 
         sbUrl.append( AppPropertiesService.getProperty( PROPERTY_URL_CREATE ) );
         sbUrl.append( INTERROGATION_MARK + PARAMETER_BLOBSTORE + EQUAL + strBlobStore );
 
-        return sbUrl.toString(  );
+        return sbUrl.toString( );
     }
 
     /**
-     * Build the url to delete a file.
-     * <br />
-     * This will append the url defined in <b>blobstoreclient.properties</b> to the given
-     * base url
-     * @param strBaseUrl the base url
+     * Build the url to delete a file. <br />
+     * This will append the url defined in <b>blobstoreclient.properties</b> to the given base url
+     * 
+     * @param strBaseUrl
+     *            the base url
      * @return the url to delete a file
      */
     public static String buildDeleteBlobUrl( String strBaseUrl )
     {
         StringBuilder sbUrl = new StringBuilder( strBaseUrl );
 
-        if ( sbUrl.toString(  ).endsWith( SLASH ) )
+        if ( sbUrl.toString( ).endsWith( SLASH ) )
         {
-            sbUrl.substring( 0, sbUrl.length(  ) - 1 );
+            sbUrl.substring( 0, sbUrl.length( ) - 1 );
         }
 
         sbUrl.append( AppPropertiesService.getProperty( PROPERTY_URL_DELETE ) );
 
-        return sbUrl.toString(  );
+        return sbUrl.toString( );
     }
 
     /**
-     * Build the url to get a file url.
-     * <br />
-     * This will append the url defined in <b>blobstoreclient.properties</b> to the given
-     * base url
-     * @param strBaseUrl the base url
-     * @param strBlobStore the blobstore service name
-     * @param strBlobKey the blob key
+     * Build the url to get a file url. <br />
+     * This will append the url defined in <b>blobstoreclient.properties</b> to the given base url
+     * 
+     * @param strBaseUrl
+     *            the base url
+     * @param strBlobStore
+     *            the blobstore service name
+     * @param strBlobKey
+     *            the blob key
      * @return the url to delete a file
      */
     public static String buildFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey )
     {
         StringBuilder sbUrl = new StringBuilder( strBaseUrl );
 
-        if ( sbUrl.toString(  ).endsWith( SLASH ) )
+        if ( sbUrl.toString( ).endsWith( SLASH ) )
         {
-            sbUrl.substring( 0, sbUrl.length(  ) - 1 );
+            sbUrl.substring( 0, sbUrl.length( ) - 1 );
         }
 
         sbUrl.append( AppPropertiesService.getProperty( PROPERTY_URL_FILE ) );
@@ -145,13 +147,16 @@ public final class UrlUtils
         sbUrl.append( INTERROGATION_MARK + PARAMETER_BLOBSTORE + EQUAL + strBlobStore );
         sbUrl.append( AMPERSAND + PARAMETER_BLOB_KEY + EQUAL + strBlobKey );
 
-        return sbUrl.toString(  );
+        return sbUrl.toString( );
     }
 
     /**
      * Extract the parameter value from the url
-     * @param strUrl the url
-     * @param strParameter the parameter
+     * 
+     * @param strUrl
+     *            the url
+     * @param strParameter
+     *            the parameter
      * @return the parameter value
      */
     public static String getParameterValue( String strUrl, String strParameter )
@@ -163,12 +168,12 @@ public final class UrlUtils
             Pattern p = Pattern.compile( strParameter + EQUAL + REGEX_URL_PARAMETER );
             Matcher m = p.matcher( strUrl );
 
-            if ( m.find(  ) )
+            if ( m.find( ) )
             {
                 strValue = m.group( 1 );
             }
         }
-        catch ( PatternSyntaxException e )
+        catch( PatternSyntaxException e )
         {
             AppLogService.error( e );
         }
@@ -178,7 +183,9 @@ public final class UrlUtils
 
     /**
      * Get the blobstore service name from the url
-     * @param strUrl the url
+     * 
+     * @param strUrl
+     *            the url
      * @return the blobstore service name
      */
     public static String getBlobStoreFromUrl( String strUrl )
@@ -188,7 +195,9 @@ public final class UrlUtils
 
     /**
      * Get the blob key from the url
-     * @param strUrl the url
+     * 
+     * @param strUrl
+     *            the url
      * @return the blob key
      */
     public static String getBlobKeyFromUrl( String strUrl )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,6 @@ import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.IWebServiceCaller;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 
-
 /**
  * 
  * BlobStoreClientWebService
@@ -62,7 +61,9 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
 
     /**
      * Set the webservice caller
-     * @param webServiceCaller the webservice caller
+     * 
+     * @param webServiceCaller
+     *            the webservice caller
      */
     public void setWebServiceCaller( IWebServiceCaller webServiceCaller )
     {
@@ -79,7 +80,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
         {
             return _webServiceCaller.callWSGetFileName( strUrl );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             throw new BlobStoreClientException( e.getMessage( ) );
         }
@@ -89,8 +90,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public String doDeleteFile( String strBaseUrl, String strBlobStore, String strBlobKey )
-            throws BlobStoreClientException
+    public String doDeleteFile( String strBaseUrl, String strBlobStore, String strBlobKey ) throws BlobStoreClientException
     {
         // Parameters
         Map<String, List<String>> mapParameters = new HashMap<String, List<String>>( );
@@ -112,7 +112,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
             return _webServiceCaller.callWSPost( UrlUtils.buildDeleteBlobUrl( strBaseUrl ), mapParameters,
                     BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             throw new BlobStoreClientException( e.getMessage( ) );
         }
@@ -122,8 +122,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public String doUploadFile( String strBaseUrl, FileItem fileItem, String strBlobStore )
-            throws BlobStoreClientException
+    public String doUploadFile( String strBaseUrl, FileItem fileItem, String strBlobStore ) throws BlobStoreClientException
     {
         // Parameters
         Map<String, List<String>> mapParameters = new HashMap<String, List<String>>( );
@@ -140,11 +139,10 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
 
         try
         {
-            return _webServiceCaller.callWSPostMultiPart( UrlUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ),
-                    mapParameters, fileItems, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ),
-                    listElements );
+            return _webServiceCaller.callWSPostMultiPart( UrlUtils.buildCreateBlobUrl( strBaseUrl, strBlobStore ), mapParameters, fileItems,
+                    BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             throw new BlobStoreClientException( e.getMessage( ) );
         }
@@ -154,8 +152,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey )
-            throws BlobStoreClientException
+    public String getFileUrl( String strBaseUrl, String strBlobStore, String strBlobKey ) throws BlobStoreClientException
     {
         List<String> listElements = new ArrayList<String>( );
         listElements.add( strBlobKey );
@@ -166,7 +163,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
             return _webServiceCaller.callWSGet( UrlUtils.buildFileUrl( strBaseUrl, strBlobStore, strBlobKey ),
                     BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             throw new BlobStoreClientException( e.getMessage( ) );
         }
@@ -187,10 +184,9 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
 
         try
         {
-            _webServiceCaller.callWSDownloadFile( strUrl, strFilePath,
-                    BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
+            _webServiceCaller.callWSDownloadFile( strUrl, strFilePath, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             throw new BlobStoreClientException( e.getMessage( ) );
         }
@@ -211,10 +207,9 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
 
         try
         {
-            return _webServiceCaller.callWSDownloadFile( strUrl,
-                    BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
+            return _webServiceCaller.callWSDownloadFile( strUrl, BlobStoreClientRequestAuthenticatorService.getRequestAuthenticator( ), listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
             throw new BlobStoreClientException( e.getMessage( ) );
         }

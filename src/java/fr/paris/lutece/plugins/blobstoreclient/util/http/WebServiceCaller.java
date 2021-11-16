@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 /**
  *
  * WebServiceCaller
@@ -64,19 +63,19 @@ public class WebServiceCaller implements IWebServiceCaller
     {
         String strResponse = StringUtils.EMPTY;
 
-        if ( AppLogService.isDebugEnabled(  ) )
+        if ( AppLogService.isDebugEnabled( ) )
         {
             AppLogService.debug( trace( strUrl ) );
         }
 
         try
         {
-            HttpAccess httpAccess = new HttpAccess(  );
+            HttpAccess httpAccess = new HttpAccess( );
             strResponse = httpAccess.getFileName( strUrl );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
-            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage(  ), e );
+            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage( ), e );
             throw new HttpAccessException( buildErrorMessage( strUrl ), e );
         }
 
@@ -86,24 +85,23 @@ public class WebServiceCaller implements IWebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public String callWSGet( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException
+    public String callWSGet( String strUrl, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException
     {
         String strResponse = StringUtils.EMPTY;
 
-        if ( AppLogService.isDebugEnabled(  ) )
+        if ( AppLogService.isDebugEnabled( ) )
         {
             AppLogService.debug( trace( strUrl, authenticator, listElements ) );
         }
 
         try
         {
-            HttpAccess httpAccess = new HttpAccess(  );
+            HttpAccess httpAccess = new HttpAccess( );
             strResponse = httpAccess.doGet( strUrl, authenticator, listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
-            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage(  ), e );
+            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage( ), e );
             throw new HttpAccessException( buildErrorMessage( strUrl ), e );
         }
 
@@ -113,25 +111,24 @@ public class WebServiceCaller implements IWebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public String callWSPost( String strUrl, Map<String, List<String>> mapParameters,
-        RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException
+    public String callWSPost( String strUrl, Map<String, List<String>> mapParameters, RequestAuthenticator authenticator, List<String> listElements )
+            throws HttpAccessException
     {
         String strResponse = StringUtils.EMPTY;
 
-        if ( AppLogService.isDebugEnabled(  ) )
+        if ( AppLogService.isDebugEnabled( ) )
         {
             AppLogService.debug( trace( strUrl, authenticator, listElements ) );
         }
 
         try
         {
-            HttpAccess httpAccess = new HttpAccess(  );
+            HttpAccess httpAccess = new HttpAccess( );
             strResponse = httpAccess.doPostMultiValues( strUrl, mapParameters, authenticator, listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
-            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage(  ), e );
+            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage( ), e );
             throw new HttpAccessException( buildErrorMessage( strUrl ), e );
         }
 
@@ -141,25 +138,24 @@ public class WebServiceCaller implements IWebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters,
-        Map<String, FileItem> listFileItems, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException
+    public String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters, Map<String, FileItem> listFileItems,
+            RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException
     {
         String strResponse = StringUtils.EMPTY;
 
-        if ( AppLogService.isDebugEnabled(  ) )
+        if ( AppLogService.isDebugEnabled( ) )
         {
             AppLogService.debug( trace( strUrl, authenticator, listElements ) );
         }
 
         try
         {
-            HttpAccess httpAccess = new HttpAccess(  );
+            HttpAccess httpAccess = new HttpAccess( );
             strResponse = httpAccess.doPostMultiPart( strUrl, mapParameters, listFileItems, authenticator, listElements );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
-            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage(  ), e );
+            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage( ), e );
             throw new HttpAccessException( buildErrorMessage( strUrl ), e );
         }
 
@@ -169,17 +165,17 @@ public class WebServiceCaller implements IWebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public void callWSDownloadFile( String strUrl, String strFilePath, RequestAuthenticator authenticator,
-        List<String> listElements ) throws HttpAccessException
+    public void callWSDownloadFile( String strUrl, String strFilePath, RequestAuthenticator authenticator, List<String> listElements )
+            throws HttpAccessException
     {
         try
         {
-            HttpAccess httpAccess = new HttpAccess(  );
+            HttpAccess httpAccess = new HttpAccess( );
             httpAccess.downloadFile( strUrl, strFilePath );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
-            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage(  ), e );
+            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage( ), e );
             throw new HttpAccessException( buildErrorMessage( strUrl ), e );
         }
     }
@@ -187,25 +183,26 @@ public class WebServiceCaller implements IWebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public FileItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException
+    public FileItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException
     {
         try
         {
-            HttpAccess httpAccess = new HttpAccess(  );
+            HttpAccess httpAccess = new HttpAccess( );
 
             return httpAccess.downloadFile( strUrl );
         }
-        catch ( HttpAccessException e )
+        catch( HttpAccessException e )
         {
-            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage(  ), e );
+            AppLogService.error( buildErrorMessage( strUrl ) + e.getMessage( ), e );
             throw new HttpAccessException( buildErrorMessage( strUrl ), e );
         }
     }
 
     /**
      * Trace the web service call
-     * @param strUrl The WS URI
+     * 
+     * @param strUrl
+     *            The WS URI
      * @return The trace
      */
     protected String trace( String strUrl )
@@ -215,9 +212,13 @@ public class WebServiceCaller implements IWebServiceCaller
 
     /**
      * Trace the web service call
-     * @param strUrl The WS URI
-     * @param authenticator The Request Authenticator
-     * @param listElements The list of elements to use to build the signature
+     * 
+     * @param strUrl
+     *            The WS URI
+     * @param authenticator
+     *            The Request Authenticator
+     * @param listElements
+     *            The list of elements to use to build the signature
      * @return The trace
      */
     protected String trace( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
@@ -227,31 +228,41 @@ public class WebServiceCaller implements IWebServiceCaller
 
     /**
      * Trace the web service call
-     * @param strUrl The WS URI
-     * @param mapParameters The parameters
-     * @param authenticator The Request Authenticator
-     * @param listElements The list of elements to use to build the signature
+     * 
+     * @param strUrl
+     *            The WS URI
+     * @param mapParameters
+     *            The parameters
+     * @param authenticator
+     *            The Request Authenticator
+     * @param listElements
+     *            The list of elements to use to build the signature
      * @return The trace
      */
-    protected String trace( String strUrl, Map<String, List<String>> mapParameters, RequestAuthenticator authenticator,
-        List<String> listElements )
+    protected String trace( String strUrl, Map<String, List<String>> mapParameters, RequestAuthenticator authenticator, List<String> listElements )
     {
         return trace( strUrl, mapParameters, null, authenticator, listElements );
     }
 
     /**
      * Trace the web service call
-     * @param strUrl The WS URI
-     * @param mapParameters The parameters
-     * @param fileItems the file to upload - map of (parameter_name, file_to_upload)
-     * @param authenticator The Request Authenticator
-     * @param listElements The list of elements to use to build the signature
+     * 
+     * @param strUrl
+     *            The WS URI
+     * @param mapParameters
+     *            The parameters
+     * @param fileItems
+     *            the file to upload - map of (parameter_name, file_to_upload)
+     * @param authenticator
+     *            The Request Authenticator
+     * @param listElements
+     *            The list of elements to use to build the signature
      * @return The trace
      */
-    protected String trace( String strUrl, Map<String, List<String>> mapParameters, Map<String, FileItem> fileItems,
-        RequestAuthenticator authenticator, List<String> listElements )
+    protected String trace( String strUrl, Map<String, List<String>> mapParameters, Map<String, FileItem> fileItems, RequestAuthenticator authenticator,
+            List<String> listElements )
     {
-        StringBuilder sbTrace = new StringBuilder(  );
+        StringBuilder sbTrace = new StringBuilder( );
         sbTrace.append( "\n ---------------------- BlobStore Client WebService Call -------------------" );
         sbTrace.append( "\nWebService URL : " ).append( strUrl );
 
@@ -259,11 +270,11 @@ public class WebServiceCaller implements IWebServiceCaller
         {
             sbTrace.append( "\nParameters : " );
 
-            for ( Entry<String, List<String>> parameter : mapParameters.entrySet(  ) )
+            for ( Entry<String, List<String>> parameter : mapParameters.entrySet( ) )
             {
-                for ( String strValue : parameter.getValue(  ) )
+                for ( String strValue : parameter.getValue( ) )
                 {
-                    sbTrace.append( "\n   " ).append( parameter.getKey(  ) ).append( ":" ).append( strValue );
+                    sbTrace.append( "\n   " ).append( parameter.getKey( ) ).append( ":" ).append( strValue );
                 }
             }
         }
@@ -272,12 +283,12 @@ public class WebServiceCaller implements IWebServiceCaller
         {
             sbTrace.append( "\nFichiers : " );
 
-            for ( Entry<String, FileItem> paramFileItem : fileItems.entrySet(  ) )
+            for ( Entry<String, FileItem> paramFileItem : fileItems.entrySet( ) )
             {
-                FileItem fileItem = paramFileItem.getValue(  );
-                sbTrace.append( "\n   Parametre : " ).append( paramFileItem.getKey(  ) );
-                sbTrace.append( "\n   Nom : " ).append( fileItem.getName(  ) );
-                sbTrace.append( " - Taille : " ).append( fileItem.getSize(  ) );
+                FileItem fileItem = paramFileItem.getValue( );
+                sbTrace.append( "\n   Parametre : " ).append( paramFileItem.getKey( ) );
+                sbTrace.append( "\n   Nom : " ).append( fileItem.getName( ) );
+                sbTrace.append( " - Taille : " ).append( fileItem.getSize( ) );
             }
         }
 
@@ -294,39 +305,43 @@ public class WebServiceCaller implements IWebServiceCaller
             if ( authenticator instanceof RequestHashAuthenticator )
             {
                 RequestHashAuthenticator auth = (RequestHashAuthenticator) authenticator;
-                String strTimestamp = "" + new Date(  ).getTime(  );
+                String strTimestamp = "" + new Date( ).getTime( );
                 String strSignature = auth.buildSignature( listElements, strTimestamp );
                 sbTrace.append( "\n Request Authenticator : RequestHashAuthenticator" );
                 sbTrace.append( "\n Timestamp sample : " ).append( strTimestamp );
                 sbTrace.append( "\n Signature for this timestamp : " ).append( strSignature );
             }
-            else if ( authenticator instanceof HeaderHashAuthenticator )
-            {
-                HeaderHashAuthenticator auth = (HeaderHashAuthenticator) authenticator;
-                String strTimestamp = Long.toString( new Date(  ).getTime(  ) );
-                String strSignature = auth.buildSignature( listElements, strTimestamp );
-                sbTrace.append( "\n Request Authenticator : HeaderHashAuthenticator" );
-                sbTrace.append( "\n Timestamp sample : " ).append( strTimestamp );
-                sbTrace.append( "\n Signature for this timestamp : " ).append( strSignature );
-            }
-            else if ( authenticator instanceof NoSecurityAuthenticator )
-            {
-                sbTrace.append( "\n No request authentification" );
-            }
             else
-            {
-                sbTrace.append( "\n Unknown Request authenticator" );
-            }
+                if ( authenticator instanceof HeaderHashAuthenticator )
+                {
+                    HeaderHashAuthenticator auth = (HeaderHashAuthenticator) authenticator;
+                    String strTimestamp = Long.toString( new Date( ).getTime( ) );
+                    String strSignature = auth.buildSignature( listElements, strTimestamp );
+                    sbTrace.append( "\n Request Authenticator : HeaderHashAuthenticator" );
+                    sbTrace.append( "\n Timestamp sample : " ).append( strTimestamp );
+                    sbTrace.append( "\n Signature for this timestamp : " ).append( strSignature );
+                }
+                else
+                    if ( authenticator instanceof NoSecurityAuthenticator )
+                    {
+                        sbTrace.append( "\n No request authentification" );
+                    }
+                    else
+                    {
+                        sbTrace.append( "\n Unknown Request authenticator" );
+                    }
         }
 
         sbTrace.append( "\n --------------------------------------------------------------------" );
 
-        return sbTrace.toString(  );
+        return sbTrace.toString( );
     }
 
     /**
      * Build the error message
-     * @param strUrl the url
+     * 
+     * @param strUrl
+     *            the url
      * @return the error message
      */
     private String buildErrorMessage( String strUrl )

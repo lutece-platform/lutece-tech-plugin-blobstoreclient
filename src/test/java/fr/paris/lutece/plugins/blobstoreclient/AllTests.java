@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  *
  * AllTests
@@ -47,10 +46,11 @@ import junit.framework.TestSuite;
 public class AllTests
 {
     /**
-    * A set of tests
-    * @return Test the tests
-    */
-    public static Test suite(  )
+     * A set of tests
+     * 
+     * @return Test the tests
+     */
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "*** Tests Plugin BlobStoreClient " );
 

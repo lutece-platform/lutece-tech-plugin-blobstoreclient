@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.apache.commons.fileupload.FileItem;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * WebServiceCaller Interface
  */
@@ -49,68 +48,96 @@ public interface IWebServiceCaller
 {
     /**
      * Call Rest WS to get the file name
-     * @param strUrl the url
+     * 
+     * @param strUrl
+     *            the url
      * @return the file name
-     * @throws HttpAccessException exception if there is an HTTP issue
+     * @throws HttpAccessException
+     *             exception if there is an HTTP issue
      */
     String callWSGetFileName( String strUrl ) throws HttpAccessException;
 
     /**
      * Call Rest WS to execute a GET method
-     * @param strUrl the url
-     * @param authenticator The request authenticator
-     * @param listElements the list of elements to include in the signature
+     * 
+     * @param strUrl
+     *            the url
+     * @param authenticator
+     *            The request authenticator
+     * @param listElements
+     *            the list of elements to include in the signature
      * @return the response as a String
-     * @throws HttpAccessException exception if there is an HTTP issue
+     * @throws HttpAccessException
+     *             exception if there is an HTTP issue
      */
-    String callWSGet( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException;
+    String callWSGet( String strUrl, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException;
 
     /**
      * Call Rest WS to do an action
-     * @param strUrl the url
-     * @param mapParameters the params to pass in the post
-     * @param authenticator The request authenticator
-     * @param listElements the list of elements to include in the signature
+     * 
+     * @param strUrl
+     *            the url
+     * @param mapParameters
+     *            the params to pass in the post
+     * @param authenticator
+     *            The request authenticator
+     * @param listElements
+     *            the list of elements to include in the signature
      * @return the response as a String
-     * @throws HttpAccessException the exception if there is a problem
+     * @throws HttpAccessException
+     *             the exception if there is a problem
      */
-    String callWSPost( String strUrl, Map<String, List<String>> mapParameters, RequestAuthenticator authenticator,
-        List<String> listElements ) throws HttpAccessException;
+    String callWSPost( String strUrl, Map<String, List<String>> mapParameters, RequestAuthenticator authenticator, List<String> listElements )
+            throws HttpAccessException;
 
     /**
      * Call Rest WS to execute a multipart POST method
-     * @param strUrl the url
-     * @param mapParameters the params to pass in the post
-     * @param fileItems the file to upload - map of (parameter_name, file_to_upload)
-     * @param authenticator The request authenticator
-     * @param listElements the list of elements to include in the signature
+     * 
+     * @param strUrl
+     *            the url
+     * @param mapParameters
+     *            the params to pass in the post
+     * @param fileItems
+     *            the file to upload - map of (parameter_name, file_to_upload)
+     * @param authenticator
+     *            The request authenticator
+     * @param listElements
+     *            the list of elements to include in the signature
      * @return the response as a String
-     * @throws HttpAccessException the exception if there is a problem
+     * @throws HttpAccessException
+     *             the exception if there is a problem
      */
-    String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters,
-        Map<String, FileItem> fileItems, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException;
+    String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters, Map<String, FileItem> fileItems, RequestAuthenticator authenticator,
+            List<String> listElements ) throws HttpAccessException;
 
     /**
      * Call WS to download a file
-     * @param strUrl the url of the file to download
-     * @param strFilePath the file path to download the file
-     * @param authenticator the request authenticator
-     * @param listElements the list of elements to include in the signature
-     * @throws HttpAccessException exception if there is an HTTP error
+     * 
+     * @param strUrl
+     *            the url of the file to download
+     * @param strFilePath
+     *            the file path to download the file
+     * @param authenticator
+     *            the request authenticator
+     * @param listElements
+     *            the list of elements to include in the signature
+     * @throws HttpAccessException
+     *             exception if there is an HTTP error
      */
-    void callWSDownloadFile( String strUrl, String strFilePath, RequestAuthenticator authenticator,
-        List<String> listElements ) throws HttpAccessException;
+    void callWSDownloadFile( String strUrl, String strFilePath, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException;
 
     /**
      * Call WS to download a file
-     * @param strUrl the url of the file to download
-     * @param authenticator the request authenticator
-     * @param listElements the list of elements to include in the signature
+     * 
+     * @param strUrl
+     *            the url of the file to download
+     * @param authenticator
+     *            the request authenticator
+     * @param listElements
+     *            the list of elements to include in the signature
      * @return a {@link FileItem}
-     * @throws HttpAccessException exception if there is an HTTP error
+     * @throws HttpAccessException
+     *             exception if there is an HTTP error
      */
-    FileItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException;
+    FileItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-
 /**
  *
  * MokeFileItem
@@ -51,7 +50,9 @@ import java.io.UnsupportedEncodingException;
 public class MokeFileItem implements FileItem
 {
     private static final long serialVersionUID = 511558501873337322L;
-    private static final byte[] BYTE = { 0 };
+    private static final byte [ ] BYTE = {
+            0
+    };
     private static final String CONTENT_TYPE = "ContentType";
     private static final String FIELD_NAME = "FieldName";
     private static final String NAME = "Name";
@@ -61,7 +62,9 @@ public class MokeFileItem implements FileItem
 
     /**
      * Constructor
-     * @param strResourcesDir the resouces dir
+     * 
+     * @param strResourcesDir
+     *            the resouces dir
      */
     public MokeFileItem( String strResourcesDir )
     {
@@ -71,14 +74,14 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public void delete(  )
+    public void delete( )
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public byte[] get(  )
+    public byte [ ] get( )
     {
         return BYTE;
     }
@@ -86,7 +89,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public String getContentType(  )
+    public String getContentType( )
     {
         return CONTENT_TYPE;
     }
@@ -94,7 +97,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public String getFieldName(  )
+    public String getFieldName( )
     {
         return FIELD_NAME;
     }
@@ -102,7 +105,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public InputStream getInputStream(  ) throws IOException
+    public InputStream getInputStream( ) throws IOException
     {
         return new FileInputStream( _strResourcesDir + "../test-classes/" + FILE_NAME );
     }
@@ -110,7 +113,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public String getName(  )
+    public String getName( )
     {
         return NAME;
     }
@@ -118,7 +121,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public OutputStream getOutputStream(  ) throws IOException
+    public OutputStream getOutputStream( ) throws IOException
     {
         return null;
     }
@@ -126,7 +129,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public long getSize(  )
+    public long getSize( )
     {
         return SIZE;
     }
@@ -134,7 +137,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public String getString(  )
+    public String getString( )
     {
         return NAME;
     }
@@ -150,7 +153,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public boolean isFormField(  )
+    public boolean isFormField( )
     {
         return false;
     }
@@ -158,7 +161,7 @@ public class MokeFileItem implements FileItem
     /**
      * {@inheritDoc}
      */
-    public boolean isInMemory(  )
+    public boolean isInMemory( )
     {
         return false;
     }

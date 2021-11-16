@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.blobstoreclient.service.signrequest;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.signrequest.RequestAuthenticator;
 
-
 /**
  *
  * BlobStoreClientRequestAuthenticatorService
@@ -50,17 +49,17 @@ public final class BlobStoreClientRequestAuthenticatorService
     /**
      * Private constructor
      */
-    private BlobStoreClientRequestAuthenticatorService(  )
+    private BlobStoreClientRequestAuthenticatorService( )
     {
     }
 
     /**
      * Get the instance of {@link RequestAuthenticator} defined in the context.xml
+     * 
      * @return the instance of {@link RequestAuthenticator}
      */
-    public static RequestAuthenticator getRequestAuthenticator(  )
+    public static RequestAuthenticator getRequestAuthenticator( )
     {
-        return (RequestAuthenticator) SpringContextService.getPluginBean( PLUGIN_NAME,
-            BEAN_BLOBSTORE_CLIENT_REQUESTAUTHENTICATOR );
+        return (RequestAuthenticator) SpringContextService.getPluginBean( PLUGIN_NAME, BEAN_BLOBSTORE_CLIENT_REQUESTAUTHENTICATOR );
     }
 }

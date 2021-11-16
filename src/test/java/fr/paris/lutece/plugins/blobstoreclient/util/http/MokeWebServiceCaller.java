@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.apache.commons.fileupload.FileItem;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  *
  * MokeWebServiceCaller
@@ -68,8 +67,7 @@ public class MokeWebServiceCaller extends WebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public String callWSGet( String strUrl, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException
+    public String callWSGet( String strUrl, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException
     {
         String strTrace = trace( strUrl, authenticator, listElements );
         System.out.println( strTrace );
@@ -80,9 +78,8 @@ public class MokeWebServiceCaller extends WebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public String callWSPost( String strUrl, Map<String, List<String>> mapParameters,
-        RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException
+    public String callWSPost( String strUrl, Map<String, List<String>> mapParameters, RequestAuthenticator authenticator, List<String> listElements )
+            throws HttpAccessException
     {
         String strTrace = trace( strUrl, mapParameters, authenticator, listElements );
         System.out.println( strTrace );
@@ -93,9 +90,8 @@ public class MokeWebServiceCaller extends WebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters,
-        Map<String, FileItem> listFileItems, RequestAuthenticator authenticator, List<String> listElements )
-        throws HttpAccessException
+    public String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters, Map<String, FileItem> listFileItems,
+            RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException
     {
         String strTrace = trace( strUrl, mapParameters, listFileItems, authenticator, listElements );
         System.out.println( strTrace );
