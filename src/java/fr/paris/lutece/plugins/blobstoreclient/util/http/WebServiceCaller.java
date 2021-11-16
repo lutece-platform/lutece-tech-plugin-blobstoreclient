@@ -42,7 +42,7 @@ import fr.paris.lutece.util.signrequest.RequestAuthenticator;
 import fr.paris.lutece.util.signrequest.RequestHashAuthenticator;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.List;
