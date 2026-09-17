@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.blobstoreclient.business;
 
-import org.apache.commons.fileupload.FileItem;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,10 +44,10 @@ import java.io.UnsupportedEncodingException;
 
 /**
  *
- * MokeFileItem
+ * MockMultipartItem
  *
  */
-public class MokeFileItem implements FileItem
+public class MockMultipartItem implements MultipartItem
 {
     private static final long serialVersionUID = 511558501873337322L;
     private static final byte [ ] BYTE = {
@@ -66,7 +66,7 @@ public class MokeFileItem implements FileItem
      * @param strResourcesDir
      *            the resouces dir
      */
-    public MokeFileItem( String strResourcesDir )
+    public MockMultipartItem( String strResourcesDir )
     {
         _strResourcesDir = strResourcesDir;
     }

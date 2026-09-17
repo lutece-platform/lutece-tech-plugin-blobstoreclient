@@ -36,7 +36,7 @@ package fr.paris.lutece.plugins.blobstoreclient.util.http;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 import fr.paris.lutece.util.signrequest.RequestAuthenticator;
 
-import org.apache.commons.fileupload.FileItem;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 
 import java.util.List;
 import java.util.Map;
@@ -90,7 +90,7 @@ public class MokeWebServiceCaller extends WebServiceCaller
     /**
      * {@inheritDoc}
      */
-    public String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters, Map<String, FileItem> listFileItems,
+    public String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters, Map<String, MultipartItem> listFileItems,
             RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException
     {
         String strTrace = trace( strUrl, mapParameters, listFileItems, authenticator, listElements );

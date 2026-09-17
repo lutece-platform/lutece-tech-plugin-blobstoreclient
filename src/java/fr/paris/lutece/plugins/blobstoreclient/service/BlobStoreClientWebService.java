@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 
 import fr.paris.lutece.plugins.blobstore.service.BlobStoreClientException;
 import fr.paris.lutece.plugins.blobstore.service.IBlobStoreClientService;
@@ -46,12 +46,19 @@ import fr.paris.lutece.plugins.blobstoreclient.service.signrequest.BlobStoreClie
 import fr.paris.lutece.plugins.blobstoreclient.util.UrlUtils;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.IWebServiceCaller;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
+import fr.paris.lutece.plugins.priority.annotation.LutecePriority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+import jakarta.inject.Inject;
 
 /**
  * 
  * BlobStoreClientWebService
  * 
  */
+@ApplicationScoped
+@Alternative
+@LutecePriority( "blobstoreclient.service.priority.webservice" )
 public class BlobStoreClientWebService implements IBlobStoreClientService
 {
     private static final String PARAMETER_BLOB_KEY = "blob_key";
@@ -60,14 +67,22 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
     private IWebServiceCaller _webServiceCaller;
 
     /**
-     * Set the webservice caller
-     * 
+     * Builds the service on the caller it delegates its REST calls to.
+     *
      * @param webServiceCaller
-     *            the webservice caller
+     *            the web service caller
      */
-    public void setWebServiceCaller( IWebServiceCaller webServiceCaller )
+    @Inject
+    public BlobStoreClientWebService( IWebServiceCaller webServiceCaller )
     {
         _webServiceCaller = webServiceCaller;
+    }
+
+    /**
+     * No-argument constructor required by CDI to proxy a normal-scoped bean.
+     */
+    protected BlobStoreClientWebService( )
+    {
     }
 
     /**
@@ -122,7 +137,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public String doUploadFile( String strBaseUrl, FileItem fileItem, String strBlobStore ) throws BlobStoreClientException
+    public String doUploadFile( String strBaseUrl, MultipartItem fileItem, String strBlobStore ) throws BlobStoreClientException
     {
         // Parameters
         Map<String, List<String>> mapParameters = new HashMap<String, List<String>>( );
@@ -130,7 +145,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
         parameterBlobStore.add( strBlobStore );
         mapParameters.put( PARAMETER_BLOBSTORE, parameterBlobStore );
 
-        Map<String, FileItem> fileItems = new HashMap<String, FileItem>( );
+        Map<String, MultipartItem> fileItems = new HashMap<String, MultipartItem>( );
         fileItems.put( PARAMETER_BLOB, fileItem );
 
         // List elements to include to the signature
@@ -196,7 +211,7 @@ public class BlobStoreClientWebService implements IBlobStoreClientService
      * {@inheritDoc}
      */
     @Override
-    public FileItem doDownloadFile( String strUrl ) throws BlobStoreClientException
+    public MultipartItem doDownloadFile( String strUrl ) throws BlobStoreClientException
     {
         String strBlobKey = UrlUtils.getBlobKeyFromUrl( strUrl );
         String strBlobStore = UrlUtils.getBlobStoreFromUrl( strUrl );
