@@ -33,33 +33,29 @@
  */
 package fr.paris.lutece.plugins.blobstoreclient.service.signrequest;
 
+import fr.paris.lutece.util.signrequest.NoSecurityAuthenticator;
 import fr.paris.lutece.util.signrequest.RequestAuthenticator;
-import jakarta.enterprise.inject.literal.NamedLiteral;
-import jakarta.enterprise.inject.spi.CDI;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Named;
 
 /**
- *
- * BlobStoreClientRequestAuthenticatorService
- *
+ * Supplies the request authenticator the plugin looks up by name, which a site declares for itself.
  */
-public final class BlobStoreClientRequestAuthenticatorService
+@ApplicationScoped
+public class TestRequestAuthenticatorProducer
 {
-    private static final String BEAN_BLOBSTORE_CLIENT_REQUESTAUTHENTICATOR = "blobstoreclient.requestAuthenticator";
-
     /**
-     * Private constructor
+     * The authenticator the web service calls are signed with in the tests.
+     *
+     * @return an authenticator adding no security element
      */
-    private BlobStoreClientRequestAuthenticatorService( )
+    @Produces
+    @Named( "blobstoreclient.requestAuthenticator" )
+    @ApplicationScoped
+    public RequestAuthenticator produceRequestAuthenticator( )
     {
-    }
-
-    /**
-     * Get the instance of {@link RequestAuthenticator} defined in the context.xml
-     * 
-     * @return the instance of {@link RequestAuthenticator}
-     */
-    public static RequestAuthenticator getRequestAuthenticator( )
-    {
-        return CDI.current( ).select( RequestAuthenticator.class, NamedLiteral.of( BEAN_BLOBSTORE_CLIENT_REQUESTAUTHENTICATOR ) ).get( );
+        return new NoSecurityAuthenticator( );
     }
 }

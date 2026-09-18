@@ -34,9 +34,10 @@
 package fr.paris.lutece.plugins.blobstoreclient.service;
 
 import fr.paris.lutece.plugins.blobstore.service.BlobStoreClientException;
-import fr.paris.lutece.plugins.blobstoreclient.business.MokeFileItem;
+import fr.paris.lutece.plugins.blobstoreclient.business.MockMultipartItem;
 import fr.paris.lutece.plugins.blobstoreclient.util.http.MokeWebServiceCaller;
 import fr.paris.lutece.test.LuteceTestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * 
@@ -52,12 +53,12 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
     /**
      * Test of getFileName method of fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService
      */
+    @Test
     public void testGetFileName( )
     {
         System.out.println( "getFileName" );
 
-        BlobStoreClientWebService webService = new BlobStoreClientWebService( );
-        webService.setWebServiceCaller( new MokeWebServiceCaller( ) );
+        BlobStoreClientWebService webService = new BlobStoreClientWebService( new MokeWebServiceCaller( ) );
 
         try
         {
@@ -72,12 +73,12 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
     /**
      * Test of doDeleteFile method of fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService
      */
+    @Test
     public void testDoDeleteFile( )
     {
         System.out.println( "doDeleteFile" );
 
-        BlobStoreClientWebService webService = new BlobStoreClientWebService( );
-        webService.setWebServiceCaller( new MokeWebServiceCaller( ) );
+        BlobStoreClientWebService webService = new BlobStoreClientWebService( new MokeWebServiceCaller( ) );
 
         try
         {
@@ -92,16 +93,16 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
     /**
      * Test of doUploadFile method of fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService
      */
+    @Test
     public void testDoUploadFile( )
     {
         System.out.println( "doDeleteFile" );
 
-        BlobStoreClientWebService webService = new BlobStoreClientWebService( );
-        webService.setWebServiceCaller( new MokeWebServiceCaller( ) );
+        BlobStoreClientWebService webService = new BlobStoreClientWebService( new MokeWebServiceCaller( ) );
 
         try
         {
-            webService.doUploadFile( URL, new MokeFileItem( getResourcesDir( ) ), BLOBSTORE );
+            webService.doUploadFile( URL, new MockMultipartItem( getResourcesDir( ) ), BLOBSTORE );
         }
         catch( BlobStoreClientException e )
         {
@@ -112,12 +113,12 @@ public class BlobStoreClientWebServiceTest extends LuteceTestCase
     /**
      * Test of getFileUrl method of fr.paris.lutece.plugins.blobstoreclient.service.BlobStoreClientWebService
      */
+    @Test
     public void testGetFileUrl( )
     {
         System.out.println( "getFileUrl" );
 
-        BlobStoreClientWebService webService = new BlobStoreClientWebService( );
-        webService.setWebServiceCaller( new MokeWebServiceCaller( ) );
+        BlobStoreClientWebService webService = new BlobStoreClientWebService( new MokeWebServiceCaller( ) );
 
         try
         {

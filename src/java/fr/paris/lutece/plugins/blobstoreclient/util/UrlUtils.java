@@ -88,7 +88,7 @@ public final class UrlUtils
 
         if ( sbUrl.toString( ).endsWith( SLASH ) )
         {
-            sbUrl.substring( 0, sbUrl.length( ) - 1 );
+            sbUrl.deleteCharAt( sbUrl.length( ) - 1 );
         }
 
         sbUrl.append( AppPropertiesService.getProperty( PROPERTY_URL_CREATE ) );
@@ -111,7 +111,7 @@ public final class UrlUtils
 
         if ( sbUrl.toString( ).endsWith( SLASH ) )
         {
-            sbUrl.substring( 0, sbUrl.length( ) - 1 );
+            sbUrl.deleteCharAt( sbUrl.length( ) - 1 );
         }
 
         sbUrl.append( AppPropertiesService.getProperty( PROPERTY_URL_DELETE ) );
@@ -137,7 +137,7 @@ public final class UrlUtils
 
         if ( sbUrl.toString( ).endsWith( SLASH ) )
         {
-            sbUrl.substring( 0, sbUrl.length( ) - 1 );
+            sbUrl.deleteCharAt( sbUrl.length( ) - 1 );
         }
 
         sbUrl.append( AppPropertiesService.getProperty( PROPERTY_URL_FILE ) );

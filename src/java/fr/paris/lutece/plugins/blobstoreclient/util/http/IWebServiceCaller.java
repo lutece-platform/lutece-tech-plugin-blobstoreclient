@@ -36,7 +36,7 @@ package fr.paris.lutece.plugins.blobstoreclient.util.http;
 import fr.paris.lutece.util.httpaccess.HttpAccessException;
 import fr.paris.lutece.util.signrequest.RequestAuthenticator;
 
-import org.apache.commons.fileupload.FileItem;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 
 import java.util.List;
 import java.util.Map;
@@ -107,7 +107,7 @@ public interface IWebServiceCaller
      * @throws HttpAccessException
      *             the exception if there is a problem
      */
-    String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters, Map<String, FileItem> fileItems, RequestAuthenticator authenticator,
+    String callWSPostMultiPart( String strUrl, Map<String, List<String>> mapParameters, Map<String, MultipartItem> fileItems, RequestAuthenticator authenticator,
             List<String> listElements ) throws HttpAccessException;
 
     /**
@@ -135,9 +135,9 @@ public interface IWebServiceCaller
      *            the request authenticator
      * @param listElements
      *            the list of elements to include in the signature
-     * @return a {@link FileItem}
+     * @return a {@link MultipartItem}
      * @throws HttpAccessException
      *             exception if there is an HTTP error
      */
-    FileItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException;
+    MultipartItem callWSDownloadFile( String strUrl, RequestAuthenticator authenticator, List<String> listElements ) throws HttpAccessException;
 }
